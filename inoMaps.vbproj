@@ -5,7 +5,18 @@
     <TargetFramework>net9.0-windows</TargetFramework>
     <RootNamespace>inoMaps</RootNamespace>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>assets\inoMaps_app_icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="assets\inoMaps_app_icon.ico" />
+    <None Remove="assets\inoMaps_app_icon.png" />
+    <None Remove="assets\inoMaps_logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\inoMaps_app_icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <Import Include="System.Windows" />
@@ -17,6 +28,18 @@
     <Import Include="System.Windows.Media.Imaging" />
     <Import Include="System.Windows.Navigation" />
     <Import Include="System.Windows.Shapes" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\inoMaps_app_icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\inoMaps_app_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\inoMaps_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

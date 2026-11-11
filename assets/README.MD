@@ -1,0 +1,1 @@
+﻿Die Logos wurden mit KI erstellt.

@@ -127,7 +127,8 @@ Namespace Dialogs
                 latText = latp(0) + latp(1) / 60.0 ' + latp(2) / 3600.0
                 MessageBox.Show("Lat: " & latText)
             End If
-
+            lonText = lonText.Replace(",", ".")
+            latText = latText.Replace(",", ".")
             If Not Double.TryParse(
             lonText,
             Globalization.NumberStyles.Any,
