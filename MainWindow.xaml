@@ -16,7 +16,22 @@
         <Menu Grid.Row="0">
 
             <MenuItem Header="_Datei">
-                <!-- weitere Menüpunkte -->
+                <MenuItem Header="Karte laden"
+                  Click="btnLoadMap_Click"/>
+                <Separator/>
+
+                <MenuItem Header="Letzte Karten"
+                    x:Name="mnuRecentMaps"/>
+
+                <Separator/>
+                <MenuItem Header="Beenden"
+                  Click="close_Click"/>
+            </MenuItem>
+            <MenuItem Header="Kalibrieren">
+                <MenuItem Header="Bild laden"
+                  Click="LoadImage_Click"/>
+                <MenuItem Header="Kalibrieren"
+                  Click="Calibrate_Click"/>
             </MenuItem>
 
             <MenuItem Header="?">
@@ -26,19 +41,6 @@
 
         </Menu>
         <ToolBar Grid.Row="1">
-
-            <Button Content="Karte laden"
-                    Width="120"
-                    Click="btnLoadMap_Click"/>
-
-            <Button Content="Bild laden"
-            Click="LoadImage_Click"/>
-
-            <Button Content="Kalibrieren"
-            Click="Calibrate_Click"/>
-
-            <Separator/>
-
             <Button Content="+"
                     Width="40"
                     Click="btnZoomIn_Click"/>

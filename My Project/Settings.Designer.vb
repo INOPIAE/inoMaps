@@ -65,6 +65,18 @@ Namespace My
                 Me("LastMap") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property RecentMaps() As String
+            Get
+                Return CType(Me("RecentMaps"),String)
+            End Get
+            Set
+                Me("RecentMaps") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
