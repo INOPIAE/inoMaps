@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Windows.Input
 Imports System.Windows.Media.Imaging
+Imports inoMaps.Dialogs
 
 Imports inoMaps.Models
 Imports inoMaps.Services
@@ -179,5 +180,17 @@ Class MainWindow
                 LoadMapData(My.Settings.LastMap)
             End If
         End If
+    End Sub
+
+    Private Sub Info_Click(
+    sender As Object,
+    e As RoutedEventArgs)
+
+        Dim dlg As New AboutWindow()
+
+        dlg.Owner = Me
+
+        dlg.ShowDialog()
+
     End Sub
 End Class

@@ -9,11 +9,23 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
 
-        <ToolBar Grid.Row="0">
+            <MenuItem Header="_Datei">
+                <!-- weitere Menüpunkte -->
+            </MenuItem>
+
+            <MenuItem Header="?">
+                <MenuItem Header="Info"
+                  Click="Info_Click"/>
+            </MenuItem>
+
+        </Menu>
+        <ToolBar Grid.Row="1">
 
             <Button Content="Karte laden"
                     Width="120"
@@ -37,7 +49,7 @@
 
         </ToolBar>
 
-        <ScrollViewer Grid.Row="1"
+        <ScrollViewer Grid.Row="2"
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto">
 
@@ -54,7 +66,7 @@
 
         </ScrollViewer>
 
-        <Grid Grid.Row="2" Margin="5">
+        <Grid Grid.Row="3" Margin="5">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -91,13 +103,6 @@
             <TextBox Name="txtPosition"
                      Grid.Column="6"
                      Margin="5"/>
-            <!--<StatusBar Grid.Row="2">
-
-                <StatusBarItem>
-                    <TextBlock Name="txtPosition"/>
-                </StatusBarItem>
-
-            </StatusBar>-->
         </Grid>
 
     </Grid>
