@@ -1,0 +1,105 @@
+﻿<Window x:Class="MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GeoMap Explorer"
+        Height="900"
+        Width="1400">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ToolBar Grid.Row="0">
+
+            <Button Content="Karte laden"
+                    Width="120"
+                    Click="btnLoadMap_Click"/>
+
+            <Button Content="Bild laden"
+            Click="LoadImage_Click"/>
+
+            <Button Content="Kalibrieren"
+            Click="Calibrate_Click"/>
+
+            <Separator/>
+
+            <Button Content="+"
+                    Width="40"
+                    Click="btnZoomIn_Click"/>
+
+            <Button Content="-"
+                    Width="40"
+                    Click="btnZoomOut_Click"/>
+
+        </ToolBar>
+
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto">
+
+            <Image Name="MapImage"
+                   MouseMove="MapImage_MouseMove"
+                   MouseWheel="MapImage_MouseWheel"
+                  MouseLeftButtonDown="MapImage_MouseLeftButtonDown">
+
+                <Image.LayoutTransform>
+                    <ScaleTransform x:Name="ZoomTransform"/>
+                </Image.LayoutTransform>
+
+            </Image>
+
+        </ScrollViewer>
+
+        <Grid Grid.Row="2" Margin="5">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Längengrad"
+                       VerticalAlignment="Center"/>
+
+            <TextBox Name="txtLongitude"
+                     Grid.Column="1"
+                     Margin="5"/>
+
+            <TextBlock Text="Breitengrad"
+                       Grid.Column="2"
+                       VerticalAlignment="Center"/>
+
+            <TextBox Name="txtLatitude"
+                     Grid.Column="3"
+                     Margin="5"/>
+
+            <TextBlock Text="Ferro"
+                       Grid.Column="4"
+                       VerticalAlignment="Center"/>
+
+            <TextBox Name="txtFerro"
+                     Grid.Column="5"
+                     Margin="5"/>
+            <TextBox Name="txtPosition"
+                     Grid.Column="6"
+                     Margin="5"/>
+            <!--<StatusBar Grid.Row="2">
+
+                <StatusBarItem>
+                    <TextBlock Name="txtPosition"/>
+                </StatusBarItem>
+
+            </StatusBar>-->
+        </Grid>
+
+    </Grid>
+
+</Window>

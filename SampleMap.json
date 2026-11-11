@@ -1,0 +1,25 @@
+﻿{
+  "Name": "Lück Karte Wolhynien",
+  "ImageFile": "Lueck_Wolhynien.jpg",
+  "CoordinateSystem": "Ferro",
+
+  "TopLeft": {
+    "Longitude": 30.000000,
+    "Latitude": 52.000000
+  },
+
+  "TopRight": {
+    "Longitude": 42.000000,
+    "Latitude": 52.000000
+  },
+
+  "BottomLeft": {
+    "Longitude": 30.000000,
+    "Latitude": 47.000000
+  },
+
+  "BottomRight": {
+    "Longitude": 42.000000,
+    "Latitude": 47.000000
+  }
+}
