@@ -51,14 +51,16 @@
 
         </ToolBar>
 
-        <ScrollViewer Grid.Row="2"
+        <ScrollViewer x:Name="MapScrollViewer"
+                      Grid.Row="2"
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto">
 
             <Image Name="MapImage"
                    MouseMove="MapImage_MouseMove"
                    MouseWheel="MapImage_MouseWheel"
-                  MouseLeftButtonDown="MapImage_MouseLeftButtonDown">
+                   MouseLeftButtonDown="MapImage_MouseLeftButtonDown"
+                   MouseLeftButtonUp="MapImage_MouseLeftButtonUp">
 
                 <Image.LayoutTransform>
                     <ScaleTransform x:Name="ZoomTransform"/>

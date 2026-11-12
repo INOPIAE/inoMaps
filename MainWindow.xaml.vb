@@ -21,6 +21,14 @@ Class MainWindow
 
     Private Const MAX_RECENT_MAPS As Integer = 5
 
+    Private IsDragging As Boolean = False
+
+    Private DragStartPoint As Point
+
+    Private StartHorizontalOffset As Double
+
+    Private StartVerticalOffset As Double
+
     Private Sub btnLoadMap_Click(sender As Object, e As RoutedEventArgs)
 
         Dim dlg As New OpenFileDialog()
@@ -104,11 +112,33 @@ Class MainWindow
 
         If CurrentMap Is Nothing Then Exit Sub
 
+        If IsDragging Then
+
+            Dim currentPoint =
+        e.GetPosition(Me)
+
+            Dim deltaX =
+        currentPoint.X - DragStartPoint.X
+
+            Dim deltaY =
+        currentPoint.Y - DragStartPoint.Y
+
+            MapScrollViewer.ScrollToHorizontalOffset(
+        StartHorizontalOffset - deltaX)
+
+            MapScrollViewer.ScrollToVerticalOffset(
+        StartVerticalOffset - deltaY)
+
+            Return
+
+        End If
+
+
         Dim p = e.GetPosition(MapImage)
 
-        Dim scaledX = p.X * (ImagePixelWidth / MapImage.ActualWidth)
+        Dim scaledX = p.X
 
-        Dim scaledY = p.Y * (ImagePixelHeight / MapImage.ActualHeight)
+        Dim scaledY = p.Y
 
         Dim geo = BilinearConverter.PixelToGeo(
                 CurrentMap,
@@ -123,8 +153,24 @@ Class MainWindow
     End Sub
 
     Private Sub MapImage_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
-
         If CurrentMap Is Nothing Then Exit Sub
+
+        IsDragging = True
+
+        DragStartPoint =
+            e.GetPosition(Me)
+
+        StartHorizontalOffset =
+            MapScrollViewer.HorizontalOffset
+
+        StartVerticalOffset =
+            MapScrollViewer.VerticalOffset
+
+        MapImage.CaptureMouse()
+
+        Cursor = Cursors.SizeAll
+
+
 
         Dim p = e.GetPosition(MapImage)
 
@@ -145,6 +191,17 @@ Class MainWindow
 
     End Sub
 
+    Private Sub MapImage_MouseLeftButtonUp(
+    sender As Object,
+    e As MouseButtonEventArgs)
+
+        IsDragging = False
+
+        MapImage.ReleaseMouseCapture()
+
+        Cursor = Cursors.Arrow
+
+    End Sub
 
     Private Sub LoadImage_Click(sender As Object, e As RoutedEventArgs)
 
