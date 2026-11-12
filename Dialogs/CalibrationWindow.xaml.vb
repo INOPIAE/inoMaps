@@ -106,11 +106,11 @@ Namespace Dialogs
 
             Dim imageY = p.Y / CurrentZoom
 
-            Dim lonText = InputBox("Längengrad eingeben", "Kalibrierung")
+            Dim lonText = InputBox("Längengrad eingeben" & vbCrLf & "Dezimal (28,333) oder in Grad Minuten Sekunden ohne Einheit (28 20)", "Kalibrierung")
 
             If String.IsNullOrWhiteSpace(lonText) Then Return
 
-            Dim latText = InputBox("Breitengrad eingeben", "Kalibrierung")
+            Dim latText = InputBox("Breitengrad eingeben" & vbCrLf & "Dezimal (28,333) oder in Grad Minuten Sekunden ohne Einheit (28 20) ", "Kalibrierung")
 
             If String.IsNullOrWhiteSpace(latText) Then Return
 
@@ -119,12 +119,18 @@ Namespace Dialogs
 
             If lonText.Contains(" ") Then
                 Dim lonp As Double() = lonText.Split(" ").Select(Function(s) Double.Parse(s, Globalization.CultureInfo.InvariantCulture)).ToArray()
-                lonText = lonp(0) + lonp(1) / 60.0 '+ lonp(2) / 3600.0
+                lonText = lonp(0) + lonp(1) / 60.0
+                If lonp.Count = 3 Then
+                    lonText = lonp(0) + lonp(1) / 60.0 + lonp(2) / 3600.0
+                End If
                 MessageBox.Show("Lon: " & lonText)
             End If
             If latText.Contains(" ") Then
                 Dim latp As Double() = latText.Split(" ").Select(Function(s) Double.Parse(s, Globalization.CultureInfo.InvariantCulture)).ToArray()
-                latText = latp(0) + latp(1) / 60.0 ' + latp(2) / 3600.0
+                latText = latp(0) + latp(1) / 60.0
+                If latp.Count = 3 Then
+                    latText = latp(0) + latp(1) / 60.0 + latp(2) / 3600.0
+                End If
                 MessageBox.Show("Lat: " & latText)
             End If
             lonText = lonText.Replace(",", ".")
