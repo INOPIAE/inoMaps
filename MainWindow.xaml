@@ -74,6 +74,7 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="200"/>
@@ -81,31 +82,37 @@
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+            <Button Content="Suche"
+                     Grid.Column="0"
+                    Width="40"
+                    Margin="5"
+                    Click="btnSearch_Click"/>
 
             <TextBlock Text="Längengrad"
+                        Grid.Column="1"
                        VerticalAlignment="Center"/>
 
             <TextBox Name="txtLongitude"
-                     Grid.Column="1"
+                     Grid.Column="2"
                      Margin="5"/>
 
             <TextBlock Text="Breitengrad"
-                       Grid.Column="2"
+                       Grid.Column="3"
                        VerticalAlignment="Center"/>
 
             <TextBox Name="txtLatitude"
-                     Grid.Column="3"
+                     Grid.Column="4"
                      Margin="5"/>
 
             <TextBlock Text="Ferro"
-                       Grid.Column="4"
+                       Grid.Column="5"
                        VerticalAlignment="Center"/>
 
             <TextBox Name="txtFerro"
-                     Grid.Column="5"
+                     Grid.Column="6"
                      Margin="5"/>
             <TextBox Name="txtPosition"
-                     Grid.Column="6"
+                     Grid.Column="7"
                      Margin="5"/>
         </Grid>
 

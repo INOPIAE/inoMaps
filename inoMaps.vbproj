@@ -58,4 +58,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include=".marcus\todo.md" />
+  </ItemGroup>
+
 </Project>

@@ -148,8 +148,8 @@ Class MainWindow
                 ImagePixelHeight)
 
 
-        txtPosition.Text = $"X={scaledX:0} Y={scaledY:0} " & $"Lon={geo.Longitude:F6} " & $"Lat={geo.Latitude:F6}"
-
+        ' txtPosition.Text = $"X={scaledX:0} Y={scaledY:0} " & $"Lon={geo.Longitude:F6} " & $"Lat={geo.Latitude:F6}"
+        txtPosition.Text = $"Lon={geo.Longitude:F6} " & $"Lat={geo.Latitude:F6}"
     End Sub
 
     Private Sub MapImage_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
@@ -188,6 +188,8 @@ Class MainWindow
         txtLongitude.Text = geo.Longitude.ToString("F6")
 
         txtLatitude.Text = geo.Latitude.ToString("F6")
+
+        txtFerro.Text = (geo.Longitude + 17.666667).ToString("F6")
 
     End Sub
 
@@ -348,4 +350,40 @@ Class MainWindow
         My.Settings.Save()
 
     End Sub
+
+    Private Sub btnSearch_Click(sender As Object, e As RoutedEventArgs)
+
+
+        If CurrentMap Is Nothing Then Exit Sub
+
+        Dim lon As Double
+        Dim lat As Double
+
+        If Not Double.TryParse(txtLongitude.Text, lon) Then Exit Sub
+        If Not Double.TryParse(txtLatitude.Text, lat) Then Exit Sub
+
+        ' Geokoordinate -> Pixel
+        Dim pixel = BilinearConverter.GeoToPixel(
+        CurrentMap,
+        lon,
+        lat,
+        ImagePixelWidth,
+        ImagePixelHeight)
+
+        ' Position im gezoomten Bild
+        Dim zoomedX = pixel.X * CurrentZoom
+        Dim zoomedY = pixel.Y * CurrentZoom
+
+        ' Punkt in die Mitte des sichtbaren Bereichs setzen
+        Dim targetH =
+        zoomedX - (MapScrollViewer.ViewportWidth / 2)
+
+        Dim targetV =
+        zoomedY - (MapScrollViewer.ViewportHeight / 2)
+
+        MapScrollViewer.ScrollToHorizontalOffset(targetH)
+        MapScrollViewer.ScrollToVerticalOffset(targetV)
+
+    End Sub
+
 End Class
