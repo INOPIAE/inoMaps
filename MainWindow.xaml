@@ -62,17 +62,29 @@
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto">
 
-            <Image Name="MapImage"
-                   MouseMove="MapImage_MouseMove"
-                   MouseWheel="MapImage_MouseWheel"
-                   MouseLeftButtonDown="MapImage_MouseLeftButtonDown"
-                   MouseLeftButtonUp="MapImage_MouseLeftButtonUp">
+            <Canvas Name="MapCanvas"
+                    Background="Transparent">
 
-                <Image.LayoutTransform>
+                <Canvas.LayoutTransform>
                     <ScaleTransform x:Name="ZoomTransform"/>
-                </Image.LayoutTransform>
+                </Canvas.LayoutTransform>
 
-            </Image>
+                <Image Name="MapImage"
+                       MouseMove="MapImage_MouseMove"
+                       MouseWheel="MapImage_MouseWheel"
+                       MouseLeftButtonDown="MapImage_MouseLeftButtonDown"
+                       MouseLeftButtonUp="MapImage_MouseLeftButtonUp"/>
+
+                <Ellipse Name="SearchMarker"
+                         Width="14"
+                         Height="14"
+                         Fill="Red"
+                         Stroke="Black"
+                         StrokeThickness="1"
+                         Visibility="Collapsed"
+                         IsHitTestVisible="False"/>
+
+            </Canvas>
 
         </ScrollViewer>
 
@@ -81,11 +93,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Button Content="Suche"
@@ -94,20 +107,22 @@
                     Margin="5"
                     Click="btnSearch_Click"/>
 
-            <TextBlock Text="Längengrad"
-                        Grid.Column="1"
-                       VerticalAlignment="Center"/>
-
-            <TextBox Name="txtLongitude"
-                     Grid.Column="2"
-                     Margin="5"/>
-
             <TextBlock Text="Breitengrad"
-                       Grid.Column="3"
+                       Grid.Column="1"
                        VerticalAlignment="Center"/>
 
             <TextBox Name="txtLatitude"
+                     Grid.Column="2"
+                     TextAlignment="Right"
+                     Margin="5"/>
+
+            <TextBlock Text="Längengrad"
+                        Grid.Column="3"
+                       VerticalAlignment="Center"/>
+
+            <TextBox Name="txtLongitude"
                      Grid.Column="4"
+                     TextAlignment="Right"
                      Margin="5"/>
 
             <TextBlock Text="Ferro"
@@ -116,10 +131,18 @@
 
             <TextBox Name="txtFerro"
                      Grid.Column="6"
+                     TextAlignment="Right"
                      Margin="5"/>
+            
             <TextBox Name="txtPosition"
                      Grid.Column="7"
                      Margin="5"/>
+
+            <Button Content="Marker löschen"
+                     Grid.Column="8"
+                    Width="90"
+                    Margin="5"
+                    Click="btnDeleteMarker_Click"/>
         </Grid>
 
     </Grid>

@@ -69,6 +69,11 @@ Class MainWindow
         ImagePixelWidth = bmp.PixelWidth
         ImagePixelHeight = bmp.PixelHeight
 
+        MapCanvas.Width = ImagePixelWidth
+        MapCanvas.Height = ImagePixelHeight
+
+        SearchMarker.Visibility = Visibility.Collapsed
+
         Me.Title = "inoMaps - " & CurrentMap.Name
 
 
@@ -148,8 +153,7 @@ Class MainWindow
                 ImagePixelHeight)
 
 
-        ' txtPosition.Text = $"X={scaledX:0} Y={scaledY:0} " & $"Lon={geo.Longitude:F6} " & $"Lat={geo.Latitude:F6}"
-        txtPosition.Text = $"Lon={geo.Longitude:F6} " & $"Lat={geo.Latitude:F6}"
+        txtPosition.Text = $"Lat={geo.Latitude:F6} Lon={geo.Longitude:F6}"
     End Sub
 
     Private Sub MapImage_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
@@ -361,6 +365,8 @@ Class MainWindow
 
     Private Sub btnSearch_Click(sender As Object, e As RoutedEventArgs)
 
+        ' Evtl. vorhandenen Marker zurücksetzen
+        SearchMarker.Visibility = Visibility.Collapsed
 
         If CurrentMap Is Nothing Then Exit Sub
 
@@ -377,6 +383,13 @@ Class MainWindow
         lat,
         ImagePixelWidth,
         ImagePixelHeight)
+
+        ' Marker auf Zielpunkt setzen (Pixelkoordinaten des Bildes,
+        ' die Skalierung übernimmt der ZoomTransform des Canvas)
+        Canvas.SetLeft(SearchMarker, pixel.X - (SearchMarker.Width / 2))
+        Canvas.SetTop(SearchMarker, pixel.Y - (SearchMarker.Height / 2))
+
+        SearchMarker.Visibility = Visibility.Visible
 
         ' Position im gezoomten Bild
         Dim zoomedX = pixel.X * CurrentZoom
@@ -402,6 +415,11 @@ Class MainWindow
         dlg.Owner = Me
 
         dlg.ShowDialog()
+
+    End Sub
+    Private Sub btnDeleteMarker_Click(sender As Object, e As RoutedEventArgs)
+
+        SearchMarker.Visibility = Visibility.Collapsed
 
     End Sub
 End Class
