@@ -77,6 +77,18 @@ Namespace My
                 Me("RecentMaps") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property DecimalDisplay() As Boolean
+            Get
+                Return CType(Me("DecimalDisplay"),Boolean)
+            End Get
+            Set
+                Me("DecimalDisplay") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

@@ -27,6 +27,7 @@
                 <MenuItem Header="Beenden"
                   Click="close_Click"/>
             </MenuItem>
+            
             <MenuItem Header="Kalibrieren">
                 <MenuItem Header="Bild laden"
                   Click="LoadImage_Click"/>
@@ -34,6 +35,11 @@
                   Click="Calibrate_Click"/>
             </MenuItem>
 
+            <MenuItem Header="_Extras">
+                <MenuItem Header="Optionen"
+              Click="Options_Click"/>
+            </MenuItem>
+            
             <MenuItem Header="?">
                 <MenuItem Header="Info"
                   Click="Info_Click"/>

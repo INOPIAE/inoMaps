@@ -185,12 +185,20 @@ Class MainWindow
                 ImagePixelWidth,
                 ImagePixelHeight)
 
-        txtLongitude.Text = geo.Longitude.ToString("F6")
+        If My.Settings.DecimalDisplay Then
 
-        txtLatitude.Text = geo.Latitude.ToString("F6")
+            txtLongitude.Text = geo.Longitude.ToString("F6").Replace(",", ".")
 
-        txtFerro.Text = (geo.Longitude + 17.666667).ToString("F6")
+            txtLatitude.Text = geo.Latitude.ToString("F6").Replace(",", ".")
 
+            txtFerro.Text = (geo.Longitude + 17.666667).ToString("F6").Replace(",", ".")
+        Else
+            txtLongitude.Text = geo.Longitude.ToString("F6")
+
+            txtLatitude.Text = geo.Latitude.ToString("F6")
+
+            txtFerro.Text = (geo.Longitude + 17.666667).ToString("F6")
+        End If
     End Sub
 
     Private Sub MapImage_MouseLeftButtonUp(
@@ -359,8 +367,8 @@ Class MainWindow
         Dim lon As Double
         Dim lat As Double
 
-        If Not Double.TryParse(txtLongitude.Text, lon) Then Exit Sub
-        If Not Double.TryParse(txtLatitude.Text, lat) Then Exit Sub
+        If Not Double.TryParse(txtLongitude.Text.Replace(".", ","), lon) Then Exit Sub
+        If Not Double.TryParse(txtLatitude.Text.Replace(".", ","), lat) Then Exit Sub
 
         ' Geokoordinate -> Pixel
         Dim pixel = BilinearConverter.GeoToPixel(
@@ -385,5 +393,15 @@ Class MainWindow
         MapScrollViewer.ScrollToVerticalOffset(targetV)
 
     End Sub
+    Private Sub Options_Click(
+    sender As Object,
+    e As RoutedEventArgs)
 
+        Dim dlg As New OptionsWindow()
+
+        dlg.Owner = Me
+
+        dlg.ShowDialog()
+
+    End Sub
 End Class
