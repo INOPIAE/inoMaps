@@ -62,7 +62,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include=".github\workflows\release.yml" />
     <None Include=".marcus\todo.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MinVer" Version="8.1.0-alpha.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
