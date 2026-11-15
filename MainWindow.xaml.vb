@@ -233,14 +233,6 @@ Class MainWindow
 
     Private Sub Calibrate_Click(sender As Object, e As RoutedEventArgs)
 
-        If String.IsNullOrEmpty(CurrentImageFile) Then
-
-            MessageBox.Show("Zuerst eine Bilddatei laden.")
-
-            Return
-
-        End If
-
         Dim dlg As New Dialogs.CalibrationWindow(CurrentImageFile)
 
         dlg.ShowDialog()

@@ -16,6 +16,8 @@
         <Menu Grid.Row="0">
 
             <MenuItem Header="_Datei">
+                <MenuItem Header="Neue Karte"
+                  Click="Calibrate_Click"/>
                 <MenuItem Header="Karte laden"
                   Click="btnLoadMap_Click"/>
                 <Separator/>
@@ -28,13 +30,6 @@
                   Click="close_Click"/>
             </MenuItem>
             
-            <MenuItem Header="Kalibrieren">
-                <MenuItem Header="Bild laden"
-                  Click="LoadImage_Click"/>
-                <MenuItem Header="Kalibrieren"
-                  Click="Calibrate_Click"/>
-            </MenuItem>
-
             <MenuItem Header="_Extras">
                 <MenuItem Header="Optionen"
               Click="Options_Click"/>

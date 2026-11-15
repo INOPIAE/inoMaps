@@ -18,6 +18,13 @@
 
         <ToolBar Grid.Row="0">
 
+            <Button Name="btnLoadImage"
+                    Content="Bild laden"
+                    Width="100"
+                    Click="LoadImage_Click"/>
+
+            <Separator/>
+
             <Button Name="btnZoomIn"
                     Content="Zoom +"
                     Width="80"

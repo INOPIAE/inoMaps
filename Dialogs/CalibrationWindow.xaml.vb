@@ -1,96 +1,116 @@
-﻿Imports System.IO
-Imports System.Text.Json
-Imports System.Windows.Input
-Imports System.Windows.Media
-Imports System.Windows.Media.Imaging
-Imports System.Windows.Shapes
-Imports inoMaps.Models
+﻿Imports inoMaps.Models
 Imports Microsoft.VisualBasic
+Imports System.Text.Json
+Imports System.Windows
+Imports System.Windows.Input
+Imports System.Windows.Media.Imaging
+Imports Microsoft.Win32
 
 Namespace Dialogs
-    Partial Public Class CalibrationWindow
+    Public Class CalibrationWindow
 
         Private _imageFile As String
-
-        Private CurrentZoom As Double = 1.0
 
         Private CurrentStep As Integer = 0
 
         Private MapData As New MapDefinition
 
-        Public Sub New(imageFile As String)
+        Private CurrentZoom As Double = 1.0
+
+        Public Sub New(Optional imageFile As String = Nothing)
 
             InitializeComponent()
-
-            _imageFile = imageFile
-
-            AddHandler Me.Loaded,
-                AddressOf CalibrationWindow_Loaded
-
 
             AddHandler Me.MouseWheel,
                 AddressOf Window_MouseWheel
 
-        End Sub
+            AddHandler Me.Loaded,
+            AddressOf CalibrationWindow_Loaded
 
-        Private Async Sub CalibrationWindow_Loaded(sender As Object, e As RoutedEventArgs)
+            If Not String.IsNullOrEmpty(imageFile) Then
 
-            Await Dispatcher.InvokeAsync(
-                Sub()
-                    LoadImage()
-                End Sub,
-                Windows.Threading.DispatcherPriority.ApplicationIdle)
+                LoadImage(imageFile)
 
-            UpdateStepText()
+            End If
 
         End Sub
 
+        Private Sub CalibrationWindow_Loaded(sender As Object, e As RoutedEventArgs)
 
-#Region "Bild laden"
+            If String.IsNullOrEmpty(_imageFile) Then
 
-        Private Sub LoadImage()
+                If Not PromptLoadImage() Then
 
-            Dim bmp As New BitmapImage()
+                    Me.Close()
 
-            bmp.BeginInit()
-            bmp.CacheOption = BitmapCacheOption.OnLoad
-            bmp.UriSource = New Uri(_imageFile)
-            bmp.EndInit()
+                End If
 
-            imgMap.Source = bmp
+            End If
 
+        End Sub
 
+        Private Function PromptLoadImage() As Boolean
 
-            MapCanvas.Width = bmp.PixelWidth
-            MapCanvas.Height = bmp.PixelHeight
+            Dim dlg As New OpenFileDialog
+
+            dlg.Filter = "Bilddateien|*.jpg;*.jpeg;*.png;*.bmp;*.tif"
+
+            If dlg.ShowDialog <> True Then Return False
+
+            LoadImage(dlg.FileName)
+
+            Return True
+
+        End Function
+
+        Private Sub LoadImage(imageFile As String)
+
+            _imageFile = imageFile
+
+            imgMap.Source =
+            New BitmapImage(
+                New Uri(imageFile))
 
             MapData.ImageFile =
-            System.IO.Path.GetFileName(_imageFile)
+            IO.Path.GetFileName(imageFile)
+
+            CurrentStep = 0
+
+            UpdateStep()
 
         End Sub
 
-#End Region
+        Private Sub LoadImage_Click(
+            sender As Object,
+            e As RoutedEventArgs)
 
-#Region "Kalibrierung"
+            PromptLoadImage()
 
-        Private Sub UpdateStepText()
+        End Sub
+
+        Private Sub UpdateStep()
 
             Select Case CurrentStep
 
                 Case 0
-                    txtStep.Text = "Punkt 1 von 4 : Obere linke Ecke (TL)"
+                    txtStep.Text =
+                    "Obere linke Ecke anklicken"
 
                 Case 1
-                    txtStep.Text = "Punkt 2 von 4 : Obere rechte Ecke (TR)"
+                    txtStep.Text =
+                    "Obere rechte Ecke anklicken"
 
                 Case 2
-                    txtStep.Text = "Punkt 3 von 4 : Untere linke Ecke (BL)"
+                    txtStep.Text =
+                    "Untere linke Ecke anklicken"
 
                 Case 3
-                    txtStep.Text = "Punkt 4 von 4 : Untere rechte Ecke (BR)"
+                    txtStep.Text =
+                    "Untere rechte Ecke anklicken"
 
                 Case Else
-                    txtStep.Text = "Kalibrierung abgeschlossen"
+                    txtStep.Text =
+                    "Kalibrierung abgeschlossen"
 
             End Select
 
@@ -98,149 +118,104 @@ Namespace Dialogs
 
         Private Sub imgMap_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
 
+            If imgMap.Source Is Nothing Then Return
+
             If CurrentStep > 3 Then Return
 
-            Dim p = e.GetPosition(imgMap)
+            Dim p =
+            e.GetPosition(imgMap)
 
-            Dim imageX = p.X / CurrentZoom
-
-            Dim imageY = p.Y / CurrentZoom
-
-            Dim lonText = InputBox("Längengrad eingeben" & vbCrLf & "Dezimal (28,333) oder in Grad Minuten Sekunden ohne Einheit (28 20)", "Kalibrierung")
-
-            If String.IsNullOrWhiteSpace(lonText) Then Return
-
-            Dim latText = InputBox("Breitengrad eingeben" & vbCrLf & "Dezimal (28,333) oder in Grad Minuten Sekunden ohne Einheit (28 20) ", "Kalibrierung")
-
-            If String.IsNullOrWhiteSpace(latText) Then Return
+            Dim lonInput = InputBox("Längengrad eingeben")
 
             Dim lon As Double
+
+            If Not Double.TryParse(lonInput, lon) Then
+                MessageBox.Show("Ungültiger Längengrad.")
+                Return
+            End If
+
+            Dim latInput = InputBox("Breitengrad eingeben")
+
             Dim lat As Double
 
-            If lonText.Contains(" ") Then
-                Dim lonp As Double() = lonText.Split(" ").Select(Function(s) Double.Parse(s, Globalization.CultureInfo.InvariantCulture)).ToArray()
-                lonText = lonp(0) + lonp(1) / 60.0
-                If lonp.Count = 3 Then
-                    lonText = lonp(0) + lonp(1) / 60.0 + lonp(2) / 3600.0
-                End If
-                MessageBox.Show("Lon: " & lonText)
-            End If
-            If latText.Contains(" ") Then
-                Dim latp As Double() = latText.Split(" ").Select(Function(s) Double.Parse(s, Globalization.CultureInfo.InvariantCulture)).ToArray()
-                latText = latp(0) + latp(1) / 60.0
-                If latp.Count = 3 Then
-                    latText = latp(0) + latp(1) / 60.0 + latp(2) / 3600.0
-                End If
-                MessageBox.Show("Lat: " & latText)
-            End If
-            lonText = lonText.Replace(",", ".")
-            latText = latText.Replace(",", ".")
-            If Not Double.TryParse(
-            lonText,
-            Globalization.NumberStyles.Any,
-            Globalization.CultureInfo.InvariantCulture,
-            lon) Then
-
-                MessageBox.Show("Ungültiger Längengrad")
-
+            If Not Double.TryParse(latInput, lat) Then
+                MessageBox.Show("Ungültiger Breitengrad.")
                 Return
-
             End If
 
-            If Not Double.TryParse(
-            latText,
-            Globalization.NumberStyles.Any,
-            Globalization.CultureInfo.InvariantCulture,
-            lat) Then
+            Dim geo As New GeoPoint With {
+            .Longitude = lon,
+            .Latitude = lat
+        }
 
-                MessageBox.Show("Ungültiger Breitengrad")
-
-                Return
-
-            End If
-
-            Dim pixel As New PixelPoint With {.X = imageX, .Y = imageY}
-            Dim geo As New GeoPoint With {.Longitude = lon, .Latitude = lat}
+            Dim pix As New PixelPoint With {
+            .X = p.X,
+            .Y = p.Y
+        }
 
             Select Case CurrentStep
 
                 Case 0
-
-                    MapData.TopLeftPixel = pixel
                     MapData.TopLeft = geo
-
-                    DrawMarker(imageX, imageY, "TL")
+                    MapData.TopLeftPixel = pix
 
                 Case 1
-
-                    MapData.TopRightPixel = pixel
                     MapData.TopRight = geo
-
-                    DrawMarker(imageX, imageY, "TR")
+                    MapData.TopRightPixel = pix
 
                 Case 2
-
-                    MapData.BottomLeftPixel = pixel
                     MapData.BottomLeft = geo
-
-                    DrawMarker(imageX, imageY, "BL")
+                    MapData.BottomLeftPixel = pix
 
                 Case 3
-
-                    MapData.BottomRightPixel = pixel
                     MapData.BottomRight = geo
-
-                    DrawMarker(imageX, imageY, "BR")
+                    MapData.BottomRightPixel = pix
 
             End Select
 
             CurrentStep += 1
 
-            UpdateStepText()
+            UpdateStep()
 
         End Sub
 
-#End Region
+        Private Sub SaveCalibration_Click(sender As Object, e As RoutedEventArgs)
 
-#Region "Marker"
+            If CurrentStep <= 3 Then
+                MessageBox.Show("Bitte zuerst alle vier Eckpunkte kalibrieren.")
+                Return
+            End If
 
-        Private Sub DrawMarker(x As Double, y As Double, text As String)
+            Dim saveDlg As New Microsoft.Win32.SaveFileDialog
 
-            Dim marker As New Ellipse()
+            saveDlg.Filter = "Json|*.json"
 
-            marker.Width = 14
-            marker.Height = 14
+            If saveDlg.ShowDialog <> True Then Return
 
-            marker.Fill = Brushes.Red
-            marker.Stroke = Brushes.White
-            marker.StrokeThickness = 2
+            MapData.Name = InputBox("Kartenname")
 
-            Canvas.SetLeft(marker, x - 7)
-            Canvas.SetTop(marker, y - 7)
+            MapData.CoordinateSystem = InputBox("Koordinatensystem (Greenwich/Ferro)", , "Greenwich")
 
-            MapCanvas.Children.Add(marker)
+            Dim options As New JsonSerializerOptions
 
-            Dim label As New TextBlock()
+            options.WriteIndented = True
 
-            label.Text = text
-            label.Foreground = Brushes.Red
-            label.FontWeight = FontWeights.Bold
+            Dim json = JsonSerializer.Serialize(MapData, options)
 
-            Canvas.SetLeft(label, x + 10)
-            Canvas.SetTop(label, y - 10)
+            IO.File.WriteAllText(saveDlg.FileName, json)
 
-            MapCanvas.Children.Add(label)
+            MessageBox.Show("Kalibrierung gespeichert.")
+
+            DialogResult = True
 
         End Sub
-
-#End Region
-
-#Region "Zoom"
 
         Private Sub ZoomIn_Click(sender As Object, e As RoutedEventArgs)
+
             CurrentZoom *= 1.2
 
-            ApplyZoom()
+            ZoomTransform.ScaleX = CurrentZoom
+            ZoomTransform.ScaleY = CurrentZoom
 
         End Sub
 
@@ -248,7 +223,8 @@ Namespace Dialogs
 
             CurrentZoom /= 1.2
 
-            ApplyZoom()
+            ZoomTransform.ScaleX = CurrentZoom
+            ZoomTransform.ScaleY = CurrentZoom
 
         End Sub
 
@@ -260,95 +236,18 @@ Namespace Dialogs
                 CurrentZoom /= 1.1
             End If
 
-            ApplyZoom()
-
-        End Sub
-
-        Private Sub ApplyZoom()
-
             ZoomTransform.ScaleX = CurrentZoom
             ZoomTransform.ScaleY = CurrentZoom
 
-            txtZoom.Text =
-            $"{CurrentZoom * 100:F0} %"
-
         End Sub
-
-#End Region
-
-#Region "Mausposition"
 
         Private Sub imgMap_MouseMove(sender As Object, e As MouseEventArgs)
 
             Dim p = e.GetPosition(imgMap)
 
-            Dim imageX = p.X / CurrentZoom
-
-            Dim imageY = p.Y / CurrentZoom
-
-            txtMousePosition.Text = $"X={imageX:F6}   Y={imageY:F6}"
+            txtMousePosition.Text =
+            $"X={p.X:0}  Y={p.Y:0}"
 
         End Sub
-
-#End Region
-
-#Region "Speichern"
-
-        Private Sub SaveCalibration_Click(
-        sender As Object,
-        e As RoutedEventArgs)
-
-            If CurrentStep < 4 Then
-
-                MessageBox.Show("Bitte zuerst alle vier Kalibrierpunkte setzen.")
-
-                Return
-
-            End If
-
-            Dim mapName = InputBox("Name der Karte", "Kartendefinition")
-
-            If String.IsNullOrWhiteSpace(mapName) Then
-                Return
-            End If
-
-            MapData.Name = mapName
-
-            Dim cs = InputBox("Koordinatensystem (Greenwich oder Ferro)", "Koordinatensystem", "Greenwich")
-
-            If String.IsNullOrWhiteSpace(cs) Then
-                cs = "Greenwich"
-            End If
-
-            MapData.CoordinateSystem = cs
-
-            Dim dlg As New Microsoft.Win32.SaveFileDialog()
-
-            dlg.Filter = "JSON-Dateien (*.json)|*.json"
-
-            dlg.FileName = mapName.Replace(" ", "_") & ".json"
-
-            If dlg.ShowDialog() <> True Then
-                Return
-            End If
-
-            Dim options As New JsonSerializerOptions()
-
-            options.WriteIndented = True
-
-            Dim json = JsonSerializer.Serialize(MapData, options)
-
-            File.WriteAllText(dlg.FileName, json)
-
-            MessageBox.Show("Kalibrierung gespeichert.")
-
-            DialogResult = True
-
-            Close()
-
-        End Sub
-
-#End Region
-
     End Class
 End Namespace
