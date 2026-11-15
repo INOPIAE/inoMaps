@@ -248,6 +248,13 @@ Class MainWindow
     End Sub
 
     Private Sub MainWindow_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
+        If My.Settings.NeedsUpgrade Then
+            My.Settings.Upgrade()
+            My.Settings.NeedsUpgrade = False
+            My.Settings.Save()
+        End If
+
+
         BuildRecentMapMenu()
         If My.Settings.LastMap <> "" Then
             If File.Exists(My.Settings.LastMap) Then
