@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows</TargetFramework>
+	<MinVerTagPrefix>v</MinVerTagPrefix>
     <RootNamespace>inoMaps</RootNamespace>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>assets\inoMaps_app_icon.ico</ApplicationIcon>

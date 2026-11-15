@@ -27,8 +27,10 @@ Namespace Dialogs
             GetName().
             Version
 
+            Dim version1 = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location)
+
             txtVersion.Text =
-            $"Version {version}"
+            $"Version {version} {version1.FileVersion}"
 
         End Sub
 
