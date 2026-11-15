@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Windows.Input
+Imports System.Windows.Media
 Imports System.Windows.Media.Imaging
 Imports inoMaps.Dialogs
 
@@ -28,6 +29,30 @@ Class MainWindow
     Private StartHorizontalOffset As Double
 
     Private StartVerticalOffset As Double
+
+    Private Sub MainWindow_Initialized_Marker()
+
+        ApplySearchMarkerSettings()
+
+    End Sub
+
+    Private Sub ApplySearchMarkerSettings()
+
+        Dim diameter = My.Settings.SearchMarkerDiameter
+
+        SearchMarker.Width = diameter
+        SearchMarker.Height = diameter
+
+        SearchMarker.Fill =
+            New SolidColorBrush(My.Settings.SearchMarkerFillColor)
+
+        SearchMarker.Stroke =
+            New SolidColorBrush(My.Settings.SearchMarkerStrokeColor)
+
+        SearchMarker.StrokeThickness =
+            My.Settings.SearchMarkerStrokeThickness
+
+    End Sub
 
     Private Sub btnLoadMap_Click(sender As Object, e As RoutedEventArgs)
 
@@ -246,6 +271,7 @@ Class MainWindow
             My.Settings.Save()
         End If
 
+        ApplySearchMarkerSettings()
 
         BuildRecentMapMenu()
         If My.Settings.LastMap <> "" Then
@@ -253,6 +279,20 @@ Class MainWindow
                 LoadMapData(My.Settings.LastMap)
             End If
         End If
+    End Sub
+
+    Private Sub Options_Click(sender As Object, e As RoutedEventArgs)
+
+        Dim dlg As New Dialogs.OptionsWindow
+
+        dlg.Owner = Me
+
+        If dlg.ShowDialog() = True Then
+
+            ApplySearchMarkerSettings()
+
+        End If
+
     End Sub
 
     Private Sub Info_Click(sender As Object, e As RoutedEventArgs)
@@ -405,17 +445,7 @@ Class MainWindow
         MapScrollViewer.ScrollToVerticalOffset(targetV)
 
     End Sub
-    Private Sub Options_Click(
-    sender As Object,
-    e As RoutedEventArgs)
 
-        Dim dlg As New OptionsWindow()
-
-        dlg.Owner = Me
-
-        dlg.ShowDialog()
-
-    End Sub
     Private Sub btnDeleteMarker_Click(sender As Object, e As RoutedEventArgs)
 
         SearchMarker.Visibility = Visibility.Collapsed

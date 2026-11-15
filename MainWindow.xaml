@@ -71,11 +71,6 @@
                        MouseLeftButtonUp="MapImage_MouseLeftButtonUp"/>
 
                 <Ellipse Name="SearchMarker"
-                         Width="14"
-                         Height="14"
-                         Fill="Red"
-                         Stroke="Black"
-                         StrokeThickness="1"
                          Visibility="Collapsed"
                          IsHitTestVisible="False"/>
 

@@ -101,6 +101,54 @@ Namespace My
                 Me("NeedsUpgrade") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("14")>  _
+        Public Property SearchMarkerDiameter() As Double
+            Get
+                Return CType(Me("SearchMarkerDiameter"),Double)
+            End Get
+            Set
+                Me("SearchMarkerDiameter") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("#FFFF0000")>  _
+        Public Property SearchMarkerFillColor() As Global.System.Windows.Media.Color
+            Get
+                Return CType(Me("SearchMarkerFillColor"),Global.System.Windows.Media.Color)
+            End Get
+            Set
+                Me("SearchMarkerFillColor") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("#FF000000")>  _
+        Public Property SearchMarkerStrokeColor() As Global.System.Windows.Media.Color
+            Get
+                Return CType(Me("SearchMarkerStrokeColor"),Global.System.Windows.Media.Color)
+            End Get
+            Set
+                Me("SearchMarkerStrokeColor") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property SearchMarkerStrokeThickness() As Double
+            Get
+                Return CType(Me("SearchMarkerStrokeThickness"),Double)
+            End Get
+            Set
+                Me("SearchMarkerStrokeThickness") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
