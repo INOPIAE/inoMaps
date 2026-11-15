@@ -228,16 +228,32 @@ Namespace Dialogs
 
         End Sub
 
-        Private Sub Window_MouseWheel(sender As Object, e As MouseWheelEventArgs)
+        Private Sub Window_MouseWheel(
+    sender As Object,
+    e As MouseWheelEventArgs)
 
-            If e.Delta > 0 Then
-                CurrentZoom *= 1.1
+            If Keyboard.Modifiers = ModifierKeys.Shift Then
+
+                If e.Delta > 0 Then
+                    CurrentZoom *= 1.1
+                Else
+                    CurrentZoom /= 1.1
+                End If
+
+                ZoomTransform.ScaleX = CurrentZoom
+                ZoomTransform.ScaleY = CurrentZoom
+
+                e.Handled = True
+
             Else
-                CurrentZoom /= 1.1
-            End If
 
-            ZoomTransform.ScaleX = CurrentZoom
-            ZoomTransform.ScaleY = CurrentZoom
+                Dim offset = MapScrollViewer.VerticalOffset - e.Delta
+
+                MapScrollViewer.ScrollToVerticalOffset(offset)
+
+                e.Handled = True
+
+            End If
 
         End Sub
 
