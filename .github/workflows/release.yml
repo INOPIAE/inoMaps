@@ -23,7 +23,7 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Projekt als einzelne Exe veröffentlichen
-        run: dotnet publish inoMaps/inoMaps.vbproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -o ./publish
+        run: dotnet publish inoMaps.vbproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -o ./publish
 
       - name: GitHub Release erstellen und Exe hochladen
         uses: softprops/action-gh-release@v2
