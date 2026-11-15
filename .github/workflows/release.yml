@@ -1,0 +1,31 @@
+﻿name: Build und Release erstellen
+
+on:
+  push:
+    tags:
+      - 'v*' # Startet automatisch bei jedem Tag, der mit "v" beginnt (z.B. v1.0.0)
+
+permissions:
+  contents: write # Erlaubt dem Workflow, ein Release zu erstellen
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest # Nutzt einen Windows-Server für WinForms/WPF
+
+    steps:
+      - name: Code herunterladen
+        uses: actions/checkout@v4
+
+      - name: .NET 9.0 einrichten
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Projekt als einzelne Exe veröffentlichen
+        run: dotnet publish inoMaps/inoMaps.vbproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -o ./publish
+
+      - name: GitHub Release erstellen und Exe hochladen
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./publish/inoMaps.exe
+          generate_release_notes: true # Erstellt automatisch Release-Notes aus deinen Commits
