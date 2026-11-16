@@ -14,9 +14,7 @@ Namespace Dialogs
             LoadAboutText()
 
             imgLogo.Source =
-            New BitmapImage(
-                New Uri(
-                    "pack://application:,,,/Assets/inoMaps_logo.png"))
+            New BitmapImage(New Uri("pack://application:,,,/Assets/inoMaps_logo.png"))
 
         End Sub
 
@@ -27,10 +25,9 @@ Namespace Dialogs
             GetName().
             Version
 
-            Dim version1 = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location)
 
-            txtVersion.Text =
-            $"Version {version} {version1.FileVersion}"
+            txtVersion.Text =String.Format("Version {0}", version)
+
 
         End Sub
 
@@ -41,7 +38,7 @@ Namespace Dialogs
                 "",
                 "Werkzeug zur Georeferenzierung historischer Karten sowie zur Auswertung genealogischer Ortsdaten.",
                 "",
-                "© 2026 - " & Year(Now) & " INOPIAE GbR",
+                String.Format("© 2026 - {0} INOPIAE GbR", Year(Now)),
                 "",
                 "Alle Rechte vorbehalten.",
                 "",
@@ -55,8 +52,7 @@ Namespace Dialogs
                 "Den vollständigen Lizenztext kannst du über die Schaltfläche ""AGPL 3.0"" einsehen."
             }
 
-            txtAbout.Text =
-                String.Join(Environment.NewLine, lines)
+            txtAbout.Text = String.Join(Environment.NewLine, lines)
 
         End Sub
 

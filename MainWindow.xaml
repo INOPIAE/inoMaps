@@ -36,6 +36,8 @@
             </MenuItem>
             
             <MenuItem Header="?">
+                <MenuItem Header="Online-Hilfe"
+                  Click="OnlineHelp_Click"/>
                 <MenuItem Header="Info"
                   Click="Info_Click"/>
             </MenuItem>

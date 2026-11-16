@@ -77,4 +77,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="documentation\images\" />
+  </ItemGroup>
+
 </Project>

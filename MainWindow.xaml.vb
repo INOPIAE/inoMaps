@@ -465,4 +465,25 @@ Class MainWindow
         SearchMarker.Visibility = Visibility.Collapsed
 
     End Sub
+
+    Private Sub OnlineHelp_Click(sender As Object, e As RoutedEventArgs)
+
+        Dim url As String = "https://github.com/INOPIAE/inoMaps/blob/master/documentation/benutzung.md"
+
+        Try
+            Process.Start(New ProcessStartInfo(url) With {
+                .UseShellExecute = True
+            })
+        Catch ex As Exception
+            MessageBox.Show(
+                "Die Online-Hilfe konnte nicht geöffnet werden." &
+                Environment.NewLine &
+                ex.Message,
+                "Fehler",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error)
+        End Try
+
+    End Sub
+
 End Class
