@@ -12,4 +12,4 @@ Hier auf "weitere Informationen" klicken und dann auf "Trotzdem ausführen".
 
 ![Sicherheitswarnung](images/windows_security_2.png)
 
-Bei der weitern Nutzung des Programmeswird diese Sicherheitswarnung nicht mehr angezeigt.
+Bei der weiteren Nutzung des Programmeswird diese Sicherheitswarnung nicht mehr angezeigt.
